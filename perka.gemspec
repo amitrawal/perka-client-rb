@@ -4,8 +4,8 @@ require File.expand_path('../lib/perka/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Joe Stelmach"]
   gem.email         = ["joe@getperka.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Write a gem description}
+  gem.summary       = %q{Write a gem summary}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
   gem.version       = Perka::VERSION
   
   gem.add_development_dependency "rspec", "~> 2.6"
-  gem.add_development_dependency "flatpack_client"
+  gem.add_dependency("flatpack_client", '=1.0')
 end
