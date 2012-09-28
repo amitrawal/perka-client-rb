@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
   gem.version       = Perka::VERSION
   
   gem.add_development_dependency "rspec", "~> 2.6"
-  gem.add_dependency("flatpack_client", "=1.0.pre")
+  gem.add_dependency("flatpack_client", "~> 1.0")
 end
