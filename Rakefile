@@ -8,7 +8,8 @@ FLATPACK_OUTPUT_DIR = "#{OUTPUT_DIR}/generated"
 GEM_OUTPUT_DIR = "#{OUTPUT_DIR}/gem"
 
 # Defalt to the most recently released version. Use LATEST for bleeding-edge.
-FAST_VERSION = 'RELEASE'
+#FAST_VERSION = 'RELEASE'
+FAST_VERSION = '2.16-SNAPSHOT'
 FAST_JAR = "#{OUTPUT_DIR}/fast.jar"
 
 task :clean do
@@ -18,33 +19,33 @@ end
 
 desc "Generates the flatpack lib"
 task :gen do
-  
+
   # download the fast executable jar if we haven't already
   unless(File.exist?("#{FAST_JAR}"))
     puts 'fetching fast.jar...'
-    
+
     `mvn -f ../flatpack-java/fast/pom.xml install`
 
     `mvn -U org.apache.maven.plugins:maven-dependency-plugin:2.4:get \
-      -Drepo=https://oss.sonatype.org/content/groups/public/ \
-      -Dartifact=com.getperka.flatpack:flatpack-fast:#{FAST_VERSION}:jar:shaded \
-      -Ddest=#{FAST_JAR}`
+-Drepo=https://oss.sonatype.org/content/groups/public/ \
+-Dartifact=com.getperka.flatpack:flatpack-fast:#{FAST_VERSION}:jar:shaded \
+-Ddest=#{FAST_JAR}`
   end
 
   puts 'running fast code generation...'
   puts `java -jar #{FAST_JAR} \
-      --RbDialect.gemName perka \
-      --RbDialect.moduleName Perka \
-      --RbDialect.modelModuleName Model \
-      generate --in #{API_SRC} --dialect rb --out #{OUTPUT_DIR} $@`
+--RbDialect.gemName perka \
+--RbDialect.moduleName Perka \
+--RbDialect.modelModuleName Model \
+generate --in #{API_SRC} --dialect rb --out #{OUTPUT_DIR} $@`
 end
 
 desc "Combines the generated flatpack code with our local code in the gem output dir"
 task :combine => :gen do
-  # clean up 
+  # clean up
   `rm -rf #{GEM_OUTPUT_DIR}`
   `mkdir -p #{GEM_OUTPUT_DIR}`
-  
+
   # combine our code in the gem output dir
   `cp -r #{SRC_DIR}/* #{GEM_OUTPUT_DIR}`
   `cp -r #{FLATPACK_OUTPUT_DIR}/* #{GEM_OUTPUT_DIR}/lib`
