@@ -1,3 +1,3 @@
 module Perka 
-  VERSION = "1.4"
+  VERSION = "1.3"
 end
